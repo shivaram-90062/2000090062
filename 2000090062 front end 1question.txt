@@ -1,0 +1,22 @@
+import React, { useState, useEffect } from 'react';
+
+function NumberList() {
+  const [numbers, setNumbers] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(data => setNumbers(data));
+  }, []);
+
+  return (
+    <div>
+      <h2>Users</h2>
+      <ul>
+        {numbers.map(user => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
