@@ -1,0 +1,49 @@
+import React, { useState, useEffect } from 'react';
+
+function TrainSchedule() {
+  const [schedule, setSchedule] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  useEffect(() => {
+    // fetch train schedule data from API and set state
+    fetch('/api/train-schedule')
+      .then(response => response.json())
+      .then(data => setSchedule(data));
+  }, []);
+
+  useEffect(() => {
+    // filter the train schedule based on the search term
+    setSchedule(schedule.filter(train => train.number.toLowerCase().includes(searchTerm.toLowerCase())));
+  }, [searchTerm]);
+
+  return (
+    <div>
+      <h1>Train Schedule</h1>
+      <input type="text" placeholder="Search..." onChange={e => setSearchTerm(e.target.value)} />
+      <table>
+        <thead>
+          <tr>
+            <th>Train Number</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Origin Station</th>
+            <th>Destination Station</th>
+          </tr>
+        </thead>
+        <tbody>
+          {schedule.map(train => (
+            <tr key={train.id}>
+              <td>{train.number}</td>
+              <td>{train.departureTime}</td>
+              <td>{train.arrivalTime}</td>
+              <td>{train.originStation}</td>
+              <td>{train.destinationStation}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export default TrainSchedule;
