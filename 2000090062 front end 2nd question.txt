@@ -5,14 +5,14 @@ function TrainSchedule() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // fetch train schedule data from API and set state
+    //  train schedule 
     fetch('/api/train-schedule')
       .then(response => response.json())
       .then(data => setSchedule(data));
   }, []);
 
   useEffect(() => {
-    // filter the train schedule based on the search term
+    // filter the train schedule 
     setSchedule(schedule.filter(train => train.number.toLowerCase().includes(searchTerm.toLowerCase())));
   }, [searchTerm]);
 
